@@ -1,5 +1,6 @@
 package com.ding;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,6 +32,12 @@ public class GrogshopDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        ViewGroup contentFrameLayout = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
+        View parentView = contentFrameLayout.getChildAt(0);
+        if (parentView != null && Build.VERSION.SDK_INT >= 14) {
+            parentView.setFitsSystemWindows(true);
+        }
         setContentView(R.layout.activity_grogshop_detail);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
