@@ -1,9 +1,9 @@
-package com.ding;
+package com.ding.listener;
 
+
+import com.ding.model.ScrollState;
 
 public interface OnStateChangeListener {
-
-  void pullViewShow(ScrollState state);
 
   void pullViewHide(ScrollState state);
 

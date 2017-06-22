@@ -1,6 +1,5 @@
 package com.ding;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,14 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.ding.adapter.GrogshopDetailAdapter;
+import com.ding.listener.OnStateChangeListener;
+import com.ding.model.ScrollState;
+import com.ding.widget.BodyTableLayout;
+import com.ding.widget.PullScrollView;
 
 public class GrogshopDetailActivity extends AppCompatActivity {
 
@@ -32,12 +33,6 @@ public class GrogshopDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        ViewGroup contentFrameLayout = (ViewGroup) findViewById(Window.ID_ANDROID_CONTENT);
-        View parentView = contentFrameLayout.getChildAt(0);
-        if (parentView != null && Build.VERSION.SDK_INT >= 14) {
-            parentView.setFitsSystemWindows(true);
-        }
         setContentView(R.layout.activity_grogshop_detail);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -45,7 +40,6 @@ public class GrogshopDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);// 显示标题和子标题
         getSupportActionBar().setDisplayUseLogoEnabled(false);// 显示应用的Logo
-
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle("酒店详情");
@@ -81,17 +75,12 @@ public class GrogshopDetailActivity extends AppCompatActivity {
     public void addClick() {
         im_open_iv.setOnClickListener(v -> mBodyTableLayout.open());
         mBodyTableLayout.setOnStateChangeListener(new OnStateChangeListener() {
-            @Override
-            public void pullViewShow(ScrollState state) {//主体部分 展示
-//                mPullScrollView.setPullRelativeLayoutState(state);
-            }
 
             @Override
             public void pullViewHide(ScrollState state) {//往下滑动时 展示头布局
                 mPullScrollView.setPullRelativeLayoutState(state);
                 rl_open_iv.setVisibility(View.VISIBLE);
             }
-
             @Override
             public void pullViewMove(ScrollState state, int offset) {//主体部分 移动时   offset一直为负
                 mPullScrollView.setPullRelativeLayoutState(state);

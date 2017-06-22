@@ -1,10 +1,13 @@
-package com.ding;
+package com.ding.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.Scroller;
 import android.widget.TableLayout;
+
+import com.ding.listener.OnStateChangeListener;
+import com.ding.model.ScrollState;
 
 
 public class BodyTableLayout extends TableLayout {
@@ -108,9 +111,6 @@ public class BodyTableLayout extends TableLayout {
 
     private void show() {
         state = ScrollState.SHOW;
-        if (mOnStateChangeListener != null) {
-            mOnStateChangeListener.pullViewShow(state);
-        }
         smoothScrollTo(0, getScrollY(), 0, -getScrollY(),
                 getScrollY());
     }

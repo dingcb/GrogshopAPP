@@ -1,10 +1,12 @@
-package com.ding;
+package com.ding.widget;
 
 import android.content.Context;
 import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+
+import com.ding.model.ScrollState;
 
 
 public class PullScrollView extends NestedScrollView {

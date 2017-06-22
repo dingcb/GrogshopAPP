@@ -1,4 +1,4 @@
-package com.ding;
+package com.ding.model;
 
 /**
  * Created by zhan on 2017/2/4.
