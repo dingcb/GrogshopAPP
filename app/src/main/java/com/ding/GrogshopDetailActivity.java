@@ -2,7 +2,6 @@ package com.ding;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +19,10 @@ import com.ding.model.ScrollState;
 import com.ding.widget.BodyTableLayout;
 import com.ding.widget.PullScrollView;
 
-public class GrogshopDetailActivity extends AppCompatActivity {
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
+
+public class GrogshopDetailActivity extends SwipeBackActivity {
 
     private ImageButton im_open_iv;
     private RecyclerView mRecyclerView;
