@@ -1,5 +1,6 @@
 package com.ding.adapter;
 
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -19,16 +20,20 @@ public class GrogshopDetailAdapter extends BaseQuickAdapter<Status, BaseViewHold
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Status item) {
+    protected void convert(final BaseViewHolder helper, Status item) {
 
         if (showIm) {//图片缓加载，节省流量和内存
             Glide.with(mContext).load(R.mipmap.start).crossFade().into((ImageView) helper.getView(R.id.img));
         }
-        helper.getView(R.id.img).setOnClickListener(v -> {
-            if (null!=getOnItemChildClickListener()){
-                getOnItemChildClickListener().onItemChildClick(this,helper.getView(R.id.img),helper.getLayoutPosition());
+        helper.getView(R.id.img).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null!=getOnItemChildClickListener()) {
+//                    getOnItemChildClickListener().onItemChildClick(mContext, helper.getView(R.id.img), helper.getLayoutPosition());
+                }
             }
         });
+
     }
 
     public void showImage(){

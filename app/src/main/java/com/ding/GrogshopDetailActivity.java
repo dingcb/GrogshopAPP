@@ -75,7 +75,12 @@ public class GrogshopDetailActivity extends SwipeBackActivity {
     }
 
     public void addClick() {
-        im_open_iv.setOnClickListener(v -> mBodyTableLayout.open());
+        im_open_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBodyTableLayout.open();
+            }
+        });
         mBodyTableLayout.setOnStateChangeListener(new OnStateChangeListener() {
 
             @Override
@@ -102,10 +107,6 @@ public class GrogshopDetailActivity extends SwipeBackActivity {
                 mRecyclerView.setVisibility(View.GONE);
                 mPullScrollView.setPullRelativeLayoutState(ScrollState.SHOW);
             }
-        });
-        adapter.setOnItemChildClickListener((adapter1, view, position) -> {
-
-
         });
     }
 
