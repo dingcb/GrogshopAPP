@@ -1,12 +1,11 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
 
-repositories {
-    mavenCentral()
-}
 
 dependencies {
-
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:27.0.2'
 }
 
 android {
@@ -18,51 +17,97 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
-/*
-def siteUrl = 'https://github.com/ikew0ng/SwipeBackLayout'
-def gitUrl = 'https://github.com/ikew0ng/SwipeBackLayout.git'
-group = "me.imid.swipebacklayout.lib"
+// 项目主页，需要修改
+def siteUrl = 'https://github.com/dingcb/GrogshopAPP'
+// 项目的git地址（必须是git地址，可以不存在），需要修改
+def gitUrl = 'git@github.com:dingcb/GrogshopAPP.git'
+// 上传到 Bintray 的库名称（刚才创建的名称），需要修改
+def libName = "utils"
+// 这两个参数配置是为了最终生成 compile 'com.xxx:xxxx:1.0.0'  group  version 是关键字，自动识别的，需要修改
+group = "com.ding"
+version = "1.0.00"
 
 install {
     repositories.mavenInstaller {
+        // 生成pom.xml和参数
         pom {
             project {
                 packaging 'aar'
-                // Add your description here
-                name 'An Android library that help you to build app with swipe back gesture.'
-                url siteUrl
+                // 可选，项目名称，需要修改
+                name 'utils'
+                // 可选，项目描述，需要修改
+                description 'Support for http request, use okhttp rxjava and retrofit.'
+                url siteUrl // 项目主页，这里是引用上面定义好
+
+                // 软件开源协议，现在一般都是Apache License2.0
                 licenses {
                     license {
                         name 'The Apache Software License, Version 2.0'
                         url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
                     }
                 }
+
+                //填写开发者基本信息，需要修改
                 developers {
                     developer {
-                        id 'ike'
-                        name 'ike'
-                        email 'ike@imid.me'
+                        id 'dingcb' // 开发者的id
+                        name 'dingcb' // 开发者名字
+                        email 'dingchaobing@gmail.com' // 开发者邮箱
                     }
                 }
+
+                // SCM
                 scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
+                    connection gitUrl // Git仓库地址
+                    developerConnection gitUrl // Git仓库地址
+                    url siteUrl // 项目主页
                 }
             }
         }
     }
 }
+
+//上传到JCenter
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    // 读取 local.properties 文件里面的 bintray.user 登录用户名
+    user = properties.getProperty("bintray.username")
+    // 读取 local.properties 文件里面的 bintray.apikey
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        // 这里的repo值必须要和你创建Maven仓库的时候的名字一样，需要修改
+        repo = "utils"
+        // 发布到 JCenter 上的项目名字
+        name = libName
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true //是否是公开项目
+    }
+}
+
+// 生成jar包的task
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
 }
+// 生成jarDoc的task
 task javadoc(type: Javadoc) {
+    options.encoding "UTF-8"
+    options.charSet 'UTF-8'
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    failOnError false // 忽略注释语法错误，如果用jdk1.8你的注释写的不规范就编译不过
 }
+// 生成javaDoc的jar
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
@@ -71,21 +116,13 @@ artifacts {
     archives javadocJar
     archives sourcesJar
 }
-Properties properties = new Properties()
-File gradle_properties = project.file('gradle.properties');
-if (gradle_properties.exists()) {
-    properties.load(project.file('gradle.properties').newDataInputStream())
-}
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    configurations = ['archives']
-    pkg {
-        repo = "maven"
-        name = "SwipeBackLayout"
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-    }
-}*/
+
+////添加
+//publish {
+//    userOrg = 'dingcb'//bintray.com用户名
+//    groupId = 'com.dingcb'//jcenter上的路径
+//    artifactId = 'css'//项目名称
+//    publishVersion = '1.0.0'//版本号
+//    desc = 'Oh hi, this is a nice description for a project, right?'//描述，不重要
+//    website = 'https://github.com/dingcb/GrogshopAPP'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
+//}
